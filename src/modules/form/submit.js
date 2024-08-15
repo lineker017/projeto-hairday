@@ -1,4 +1,6 @@
 import dayjs from "dayjs"
+import { scheduleNew } from "../../service/schedule-new"
+import { schedulesDay } from "../schedules/load.js"
 
 //elemtentos do form 
 const selectedate = document.querySelector("#date")
@@ -11,7 +13,7 @@ const inputToday = dayjs().format("YYYY-MM-DD")
 selectedate.value = inputToday
 selectedate.min = inputToday
 
-form.addEventListener("submit", (e) => {
+form.addEventListener("submit", async (e) => {
   e.preventDefault()
 
   try {
@@ -32,17 +34,18 @@ form.addEventListener("submit", (e) => {
 
     const when = dayjs(selectedate.value).add(hour, "hour")
 
+    //gerar id
     const id = new Date().getTime()
 
-    console.log({
-      id,
-      name,
-      when
-    })
+    await scheduleNew({id, name, when})
 
-    console.log("agendamento cadastrado!");
+    await schedulesDay()
+
+    //limpa nome do input e da um focus
+    clientname.value = ""
+    
   } catch (error) {
-    alert("n foi possivel agendar,tenta novamente mais tarde.")
+    alert("nao foi possivel agendar,tenta novamente mais tarde.")
 
     console.log(error);
     
