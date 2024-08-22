@@ -1,5 +1,7 @@
 import { schedulesDay } from "./schedules/load"
 
-document.addEventListener("DOMContentLoaded", () => {
+
+document.addEventListener("DOMContentLoaded",() => {
   schedulesDay()
+  
 })

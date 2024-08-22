@@ -1,53 +1,52 @@
 import dayjs from "dayjs"
 import { scheduleNew } from "../../service/schedule-new"
-import { schedulesDay } from "../schedules/load.js"
-
-//elemtentos do form 
-const selectedate = document.querySelector("#date")
-const clientname = document.getElementById("client")
+import { schedulesDay } from "../schedules/load"
+// Elementos do form
 const form = document.querySelector("form")
+const clientName = document.getElementById("client")
+const selectedDate = document.getElementById("date")
 
-//data atual
-const inputToday = dayjs().format("YYYY-MM-DD")
+// Data atual
+const inputToday = dayjs(new Date()).format("YYYY-MM-DD")
 
-selectedate.value = inputToday
-selectedate.min = inputToday
+// Carrega a data atual e define a data mínima sendo a data atual
+selectedDate.value = inputToday
+selectedDate.min = inputToday
 
-form.addEventListener("submit", async (e) => {
-  e.preventDefault()
+form.onsubmit = async(event) => {
+  // previne o comportamento padrão de recarregar a página
+  event.preventDefault()
 
   try {
-    const name = clientname.value
+    // Recuperando o nome do cliente
+    const name = clientName.value
 
     if (!name) {
-      return alert("coloque o nome do cliente")
+      return alert("Informe o nome do cliente.")
+    }
+    // Recupera o horário selecionado
+    const hourSelected = document.querySelector(".hour-selected")
+
+    if (!hourSelected) {
+      return alert("Selecione a hora.")
     }
 
-    //recupera p horario selecionado
-    const hourSeleced = document.querySelector(".hour-selected")
-
-    if(!hourSeleced) {
-      alert("selecenione a hora")
-    }
-
-    const [hour] = hourSeleced.innerHTML.split(":")
-
-    const when = dayjs(selectedate.value).add(hour, "hour")
-
-    //gerar id
+    // Recuperar somente a hora
+    const [hour] = hourSelected.innerText.split(":")
+    // Inserir a hora na data do input de data
+    const when = dayjs(selectedDate.value).add(hour, "hour")
+    // Gerar o ID
     const id = new Date().getTime()
-
-    await scheduleNew({id, name, when})
-
+    
+    await scheduleNew({ id: String(id), name, when })
+    
+    //Regarregar os horários e agendamentos
     await schedulesDay()
 
-    //limpa nome do input e da um focus
-    clientname.value = ""
-    
+    clientName.value = ""
+    clientName.focus()
   } catch (error) {
-    alert("nao foi possivel agendar,tenta novamente mais tarde.")
-
-    console.log(error);
-    
+    alert("Não foi possível agendar, tente novamente mais tarde.")
+    console.log(error); 
   }
-})
+}

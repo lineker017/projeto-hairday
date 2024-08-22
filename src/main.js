@@ -1,16 +1,16 @@
-"use strict"
+"use sctrict"
 
-//configuraçao dayjs
+// Configuração dayjs
 import "./libs/dayjs"
 
-//configuraçao de css
+// Configuração de CSS
 import "./styles/global.css"
 import "./styles/form.css"
 import "./styles/schedule.css"
-
-//js 
-import "./modules/form/submit.js"  
+// JS
+import "./modules/form/submit.js"
 import "./modules/form/date-change.js"
+import "./modules/schedules/cancel.js"
 
 import "./modules/page-load.js"
 

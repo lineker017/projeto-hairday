@@ -2,7 +2,7 @@ import { apiConfig } from "./api-config";
 
 export async function scheduleNew({ id, name, when }) {
   try {
-    await fetch(`${apiConfig.baseURL}/schedules`,{
+    await fetch(`${apiConfig.baseURL}/schedules`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -10,10 +10,9 @@ export async function scheduleNew({ id, name, when }) {
       body: JSON.stringify({ id, name, when })
     })
 
-    alert("agendamento realiazado com sucesso.")
+    alert("Agendamento realizado com sucesso")
   } catch (error) {
     console.log(error);
-    
-    alert("nao foi possivel agendar,tente novamente mais tarde")
+    alert("Não foi possível cadastrar o agendamento")
   }
 }
